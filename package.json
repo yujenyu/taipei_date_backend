@@ -1,0 +1,23 @@
+{
+  "name": "taipei_date_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon --env-file=.env index.js",
+    "start": "node --env-file=production.env index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.10",
+    "express": "^4.19.2",
+    "express-mysql-session": "^3.0.0",
+    "express-session": "^1.18.0",
+    "mysql2": "^3.9.3"
+  }
+}

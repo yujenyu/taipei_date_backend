@@ -1,54 +1,54 @@
 import express from 'express'
-import mysql from 'mysql2/promise'
 import cors from 'cors'
+import { communityRouter } from './routes/index.js'
 
 // 建立 web server 物件
 const app = express()
 
 // 使用 CORS 允許跨域請求
 app.use(cors())
-
 // comm_events
-app.get('/api/comm-events', async (req, res) => {
-    try {
-        // Create the connection to database
-        const connection = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            database: 'taipei_date',
-        })
+// app.get('/community/events', async (req, res) => {
+//     try {
+//         // Create the connection to database
+//         const connection = await mysql.createConnection({
+//             host: 'localhost',
+//             user: 'root',
+//             database: 'taipei_date',
+//         })
 
-        // A simple SELECT query
-        const [results] = await connection.query('SELECT * FROM `comm_events`')
+//         // A simple SELECT query
+//         const [results] = await connection.query('SELECT * FROM `comm_events`')
 
-        // console.log(results) // results contains rows returned by server
+//         // console.log(results) // results contains rows returned by server
 
-        // Send the results back to the client
-        res.json(results)
-    } catch (err) {
-        console.log(err)
-        res.status(500).send('Error fetching data from the database')
-    }
-})
+//         // Send the results back to the client
+//         res.json(results)
+//     } catch (err) {
+//         console.log(err)
+//         res.status(500).send('Error fetching data from the database')
+//     }
+// })
+app.use('/community', communityRouter.eventsRouter)
 
-// 自訂的頂層的 middlewares
-app.use((req, res, next) => {
-    res.locals.title = 'Taipei-Date'
-    res.locals.pageName = 'Community'
-    res.locals.session = req.session // 讓 ejs 可以使用 session
-    res.locals.originalUrl = req.originalUrl
+// app.app // 自訂的頂層的 middlewares
+//     .use((req, res, next) => {
+//         res.locals.title = 'Taipei-Date'
+//         res.locals.pageName = 'Community'
+//         res.locals.session = req.session // 讓 ejs 可以使用 session
+//         res.locals.originalUrl = req.originalUrl
 
-    // 處理 JWT token
-    const auth = req.get('Authorization')
+//         // 處理 JWT token
+//         const auth = req.get('Authorization')
 
-    // ***** 只用在測試用戶 *****
-    req.my_jwt = {
-        id: 3,
-        account: 'yujenyu@yujenyu.com',
-    }
+//         // ***** 只用在測試用戶 *****
+//         req.my_jwt = {
+//             id: 3,
+//             account: 'yujenyu@yujenyu.com',
+//         }
 
-    next()
-})
+//         next()
+//     })
 
 // 路由
 app.get('/', function (req, res) {

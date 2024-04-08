@@ -1,3 +1,7 @@
-const community = { getEvents: '/events' }
+const community = {
+    getEvents: '/events',
+    createEvent: '/events/add',
+    getPosts: '/posts',
+};
 
-export { community }
+export { community };

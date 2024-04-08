@@ -1,1 +1,1 @@
-export * from './community/index.js'
+export * from './community/index.js';

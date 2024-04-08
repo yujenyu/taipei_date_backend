@@ -1,5 +1,6 @@
-import eventsRouter from './events.js'
+import eventsRouter from './events.js';
+import postRouter from './home.js';
 
-const communityRouter = { eventsRouter }
+const communityRouter = { eventsRouter, postRouter };
 
-export default communityRouter
+export default communityRouter;

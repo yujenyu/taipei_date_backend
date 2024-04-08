@@ -1,12 +1,12 @@
-import express from 'express'
-import cors from 'cors'
-import { communityRouter } from './routes/index.js'
+import express from 'express';
+import cors from 'cors';
+import { communityRouter } from './routes/index.js';
 
 // 建立 web server 物件
-const app = express()
+const app = express();
 
 // 使用 CORS 允許跨域請求
-app.use(cors())
+app.use(cors());
 // comm_events
 // app.get('/community/events', async (req, res) => {
 //     try {
@@ -29,7 +29,8 @@ app.use(cors())
 //         res.status(500).send('Error fetching data from the database')
 //     }
 // })
-app.use('/community', communityRouter.eventsRouter)
+app.use('/community', communityRouter.eventsRouter);
+app.use('/community', communityRouter.postRouter);
 
 // app.app // 自訂的頂層的 middlewares
 //     .use((req, res, next) => {
@@ -52,8 +53,8 @@ app.use('/community', communityRouter.eventsRouter)
 
 // 路由
 app.get('/', function (req, res) {
-    res.send('Taipie Date')
-})
+    res.send('Taipie Date');
+});
 
 // 這個路由只接受 GET 方法, 路徑要為/
 // app.get('/', (req, res) => {
@@ -62,7 +63,7 @@ app.get('/', function (req, res) {
 // })
 
 // Server 偵聽
-const port = process.env.WEB_PORT || 3002
+const port = process.env.WEB_PORT || 3002;
 app.listen(port, () => {
-    console.log(`伺服器啟動 使用通訊埠 ${port}`)
-})
+    console.log(`伺服器啟動 使用通訊埠 ${port}`);
+});

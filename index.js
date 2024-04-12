@@ -29,8 +29,14 @@ app.use(cors());
 //         res.status(500).send('Error fetching data from the database')
 //     }
 // })
-app.use('/community', communityRouter.eventsRouter);
-app.use('/community', communityRouter.postRouter);
+
+app.use(
+    '/community',
+    communityRouter.eventsRouter,
+    communityRouter.postRouter,
+    communityRouter.profileRouter
+);
+// app.use('/community', communityRouter.postRouter);
 
 // app.app // 自訂的頂層的 middlewares
 //     .use((req, res, next) => {
@@ -65,5 +71,5 @@ app.get('/', function (req, res) {
 // Server 偵聽
 const port = process.env.WEB_PORT || 3002;
 app.listen(port, () => {
-    console.log(`伺服器啟動 使用通訊埠 ${port}`);
+    console.log(`App listening on port ${port}`);
 });

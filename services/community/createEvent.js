@@ -1,8 +1,8 @@
-import { db } from '../../utils/index.js'
+import db from '../../utils/mysql2-connect.js';
 
 export const createEvents = async () => {
     const [results] = await db.query(
         'INSERT INTO `comm_events` (`title`, `description`, `status`, `location`, `user_id`, `start_time`, `end_time`) VALUES (?, ?, ?, ?, ?, ?, ?)'
-    )
-    return results
-}
+    );
+    return results;
+};

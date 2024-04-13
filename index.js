@@ -7,34 +7,13 @@ const app = express();
 
 // 使用 CORS 允許跨域請求
 app.use(cors());
-// comm_events
-// app.get('/community/events', async (req, res) => {
-//     try {
-//         // Create the connection to database
-//         const connection = await mysql.createConnection({
-//             host: 'localhost',
-//             user: 'root',
-//             database: 'taipei_date',
-//         })
-
-//         // A simple SELECT query
-//         const [results] = await connection.query('SELECT * FROM `comm_events`')
-
-//         // console.log(results) // results contains rows returned by server
-
-//         // Send the results back to the client
-//         res.json(results)
-//     } catch (err) {
-//         console.log(err)
-//         res.status(500).send('Error fetching data from the database')
-//     }
-// })
 
 app.use(
     '/community',
     communityRouter.eventsRouter,
     communityRouter.postRouter,
-    communityRouter.profileRouter
+    communityRouter.profileRouter,
+    communityRouter.createRouter
 );
 // app.use('/community', communityRouter.postRouter);
 

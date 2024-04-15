@@ -4,6 +4,8 @@ const community = {
     getPosts: '/posts',
     getUserPosts: '/posts/:userId',
     uploadPhoto: '/upload-photo',
+    getSuggestUsers: '/getSuggestUsers',
+    createPost: '/create-post',
 };
 
 export { community };

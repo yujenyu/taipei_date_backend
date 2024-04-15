@@ -8,6 +8,9 @@ const app = express();
 // 使用 CORS 允許跨域請求
 app.use(cors());
 
+// 這行碼使 express 能夠解析 JSON 格式的請求體
+app.use(express.json());
+
 app.use(
     '/community',
     communityRouter.eventsRouter,

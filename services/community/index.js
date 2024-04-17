@@ -16,3 +16,5 @@ export * from './isLikedPost.js';
 export * from './attendEvent.js';
 export * from './notAttendEvent.js';
 export * from './isAttendedEvent.js';
+export * from './addComment.js';
+export * from './getComment.js';

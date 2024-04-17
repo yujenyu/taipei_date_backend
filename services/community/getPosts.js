@@ -3,11 +3,28 @@ import db from '../../utils/mysql2-connect.js';
 export const getPosts = async (page = 1, limit = 12) => {
     const offset = (page - 1) * limit; // 計算起始位置
     const query = `
-        SELECT posts.*, photos.photo_name, photos.img 
-        FROM comm_post AS posts
-        LEFT JOIN comm_photo AS photos 
-        ON posts.post_id = photos.post_id
-        ORDER BY posts.post_id DESC
+        SELECT 
+            posts.post_id, 
+            posts.context AS post_context,
+            posts.created_at,
+            posts.updated_at,
+            posts.user_id AS post_userId,
+            users.email,
+            users.username,
+            photos.photo_name,
+            photos.img
+        FROM 
+            comm_post AS posts
+        LEFT JOIN 
+            member_user AS users 
+        ON 
+            posts.user_id = users.user_id
+        LEFT JOIN 
+            comm_photo AS photos 
+        ON 
+            posts.post_id = photos.post_id
+        ORDER BY 
+            posts.post_id DESC
         LIMIT ? OFFSET ?`;
 
     const [results] = await db.query(query, [limit, offset]); // 傳遞limit和offset值

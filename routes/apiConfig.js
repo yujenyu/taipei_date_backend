@@ -16,6 +16,8 @@ const community = {
     attendEvent: '/attend-event',
     notAttendEvent: '/notattend-event',
     isAttendedEvent: '/isAttended-event',
+    getComment: '/get-comment/:postId',
+    addComment: '/add-comment',
 };
 
 export { community };

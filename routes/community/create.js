@@ -6,6 +6,7 @@ import {
     createPost,
     uploadEventPhoto,
     createEvent,
+    addComment,
 } from '../../services/index.js';
 
 const router = express.Router();
@@ -214,6 +215,34 @@ router.post(community.uploadEventPhoto, async (req, res) => {
         res.status(500).json({
             status: false,
             message: 'Server error',
+            error: err.message,
+        });
+    }
+});
+
+router.post(community.addComment, async (req, res) => {
+    const { context, status, postId, userId } = req.body;
+
+    // 檢查 context, status, postId, 和 userId 是否存在
+    if (!context || !status || !postId || !userId) {
+        return res.status(400).json({
+            status: false,
+            message: '必須提供回覆內容, status, postID, 和 userID',
+        });
+    }
+
+    try {
+        const result = await addComment(context, status, postId, userId);
+        res.status(201).json({
+            status: true,
+            message: '回覆新增成功',
+            commentId: result.insertId,
+        });
+    } catch (err) {
+        console.error('新增回覆錯誤:', err);
+        res.status(500).json({
+            status: false,
+            message: '回覆新增失敗',
             error: err.message,
         });
     }

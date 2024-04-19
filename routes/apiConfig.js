@@ -21,6 +21,7 @@ const community = {
     getUserInfo: '/get-userInfo/:userId',
     checkPostStatus: '/check-post-status',
     getRandomPosts: '/get-random-posts',
+    checkEventStatus: '/check-event-status',
 };
 
 export { community };

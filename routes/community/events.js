@@ -5,6 +5,7 @@ import {
     attendEvent,
     notAttendEvent,
     isAttendedEvent,
+    checkEventStatus,
 } from '../../services/index.js';
 
 const router = express.Router();
@@ -22,7 +23,7 @@ router.post(community.attendEvent, async (req, res) => {
     if (!eventId || !userId) {
         return res.status(400).json({
             status: false,
-            message: '必須提供貼文ID和用戶ID',
+            message: '必須提供活動ID和用戶ID',
         });
     }
 
@@ -82,6 +83,19 @@ router.get(community.isAttendedEvent, async (req, res) => {
 
     const isAttended = await isAttendedEvent(eventId, userId);
     res.json({ isAttended });
+});
+
+router.get(community.checkEventStatus, async (req, res) => {
+    const { userId, eventIds } = req.query;
+    if (!userId || !eventIds) {
+        return res.status(400).json({
+            status: false,
+            message: '需要提供 userId 和 eventIds',
+        });
+    }
+    const eventIdArray = eventIds.split(',').map((id) => parseInt(id.trim()));
+    const results = await checkEventStatus(userId, eventIdArray);
+    res.json(results);
 });
 
 export default router;

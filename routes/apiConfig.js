@@ -20,6 +20,7 @@ const community = {
     getCountPosts: '/get-count-posts/:userId',
     getUserInfo: '/get-userInfo/:userId',
     checkPostStatus: '/check-post-status',
+    getRandomPosts: '/get-random-posts',
 };
 
 export { community };

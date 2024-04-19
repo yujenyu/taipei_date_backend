@@ -20,3 +20,4 @@ export * from './getFollows.js';
 export * from './getCountPosts.js';
 export * from './getUserInfo.js';
 export * from './checkPostStatus.js';
+export * from './getRandomPosts.js';

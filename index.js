@@ -16,7 +16,8 @@ app.use(
     communityRouter.eventsRouter,
     communityRouter.postRouter,
     communityRouter.profileRouter,
-    communityRouter.createRouter
+    communityRouter.createRouter,
+    communityRouter.exploreRouter
 );
 // app.use('/community', communityRouter.postRouter);
 

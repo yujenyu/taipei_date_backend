@@ -9,15 +9,17 @@ const community = {
     createEvent: '/create-event',
     savePost: '/save-post',
     unsavePost: '/unsave-post',
-    isSavedPost: '/isSaved-post',
     likePost: '/like-post',
     unlikePost: '/unlike-post',
-    isLikedPost: '/isLiked-post',
     attendEvent: '/attend-event',
     notAttendEvent: '/notattend-event',
     isAttendedEvent: '/isAttended-event',
-    getComment: '/get-comment/:postId',
+    getComments: '/get-comments',
     addComment: '/add-comment',
+    getFollows: '/get-follows/:userId',
+    getCountPosts: '/get-count-posts/:userId',
+    getUserInfo: '/get-userInfo/:userId',
+    checkPostStatus: '/check-post-status',
 };
 
 export { community };

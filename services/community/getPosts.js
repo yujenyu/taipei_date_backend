@@ -24,7 +24,7 @@ export const getPosts = async (page = 1, limit = 12) => {
         ON 
             posts.post_id = photos.post_id
         ORDER BY 
-            posts.post_id DESC
+            posts.post_id ASC
         LIMIT ? OFFSET ?`;
 
     const [results] = await db.query(query, [limit, offset]); // 傳遞limit和offset值

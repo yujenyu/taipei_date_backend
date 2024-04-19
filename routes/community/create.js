@@ -237,6 +237,8 @@ router.post(community.addComment, async (req, res) => {
             status: true,
             message: '回覆新增成功',
             commentId: result.insertId,
+            email: result.email,
+            context: context,
         });
     } catch (err) {
         console.error('新增回覆錯誤:', err);

@@ -2,13 +2,13 @@ import express from 'express';
 import { community } from '../apiConfig.js';
 import {
     getPosts,
+    getComments,
     getSuggestUsers,
     savePost,
     unsavePost,
-    isSavedPost,
     likePost,
     unlikePost,
-    isLikedPost,
+    checkPostStatus,
 } from '../../services/index.js';
 
 const router = express.Router();
@@ -17,6 +17,19 @@ router.get(community.getPosts, async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 12; // 默認每頁12個貼文
     const results = await getPosts(page, limit);
+    res.json(results);
+});
+
+router.get(community.getComments, async (req, res) => {
+    const { postIds } = req.query;
+    if (!postIds) {
+        return res.status(400).json({
+            status: false,
+            message: '需要提供 postIds',
+        });
+    }
+    const postIdArray = postIds.split(',').map((id) => parseInt(id.trim()));
+    const results = await getComments(postIdArray);
     res.json(results);
 });
 
@@ -79,20 +92,6 @@ router.delete(community.unsavePost, async (req, res) => {
     }
 });
 
-router.get(community.isSavedPost, async (req, res) => {
-    const { postId, userId } = req.query;
-
-    if (!postId || !userId) {
-        return res.status(400).json({
-            status: false,
-            message: '必須提供貼文ID和用戶ID',
-        });
-    }
-
-    const isSaved = await isSavedPost(postId, userId);
-    res.json({ isSaved });
-});
-
 router.post(community.likePost, async (req, res) => {
     const { postId, userId } = req.body;
 
@@ -147,18 +146,17 @@ router.delete(community.unlikePost, async (req, res) => {
     }
 });
 
-router.get(community.isLikedPost, async (req, res) => {
-    const { postId, userId } = req.query;
-
-    if (!postId || !userId) {
+router.get(community.checkPostStatus, async (req, res) => {
+    const { userId, postIds } = req.query;
+    if (!userId || !postIds) {
         return res.status(400).json({
             status: false,
-            message: '必須提供貼文ID和用戶ID',
+            message: '需要提供 userId 和 postIds',
         });
     }
-
-    const isLiked = await isLikedPost(postId, userId);
-    res.json({ isLiked });
+    const postIdArray = postIds.split(',').map((id) => parseInt(id.trim()));
+    const results = await checkPostStatus(userId, postIdArray);
+    res.json(results);
 });
 
 export default router;

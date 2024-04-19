@@ -1,6 +1,8 @@
 import db from '../../utils/mysql2-connect.js';
 
-export const getComment = async (postId) => {
+export const getComments = async (postIds) => {
+    const placeholders = postIds.map(() => '?').join(', ');
+
     const qeury = `
     SELECT 
         comment.context, 
@@ -15,7 +17,8 @@ export const getComment = async (postId) => {
     ON 
         comment.user_id = users.user_id
     WHERE 
-        post_id = ?`;
-    const [results] = await db.query(qeury, [postId]);
+        post_id IN (${placeholders});
+    `;
+    const [results] = await db.query(qeury, [...postIds]);
     return results;
 };

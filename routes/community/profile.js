@@ -1,6 +1,12 @@
 import express from 'express';
 import { community } from '../apiConfig.js';
-import { getUserPosts, getComment } from '../../services/index.js';
+import {
+    getPosts,
+    getUserPosts,
+    getFollows,
+    getCountPosts,
+    getUserInfo,
+} from '../../services/index.js';
 
 const router = express.Router();
 
@@ -19,9 +25,21 @@ router.get(community.getUserPosts, async (req, res) => {
     res.json(results);
 });
 
-router.get(community.getComment, async (req, res) => {
-    const { postId } = req.params;
-    const results = await getComment(postId);
+router.get(community.getFollows, async (req, res) => {
+    const { userId } = req.params;
+    const results = await getFollows(userId, userId);
+    res.json(results);
+});
+
+router.get(community.getCountPosts, async (req, res) => {
+    const { userId } = req.params;
+    const results = await getCountPosts(userId);
+    res.json(results);
+});
+
+router.get(community.getUserInfo, async (req, res) => {
+    const { userId } = req.params;
+    const results = await getUserInfo(userId);
     res.json(results);
 });
 

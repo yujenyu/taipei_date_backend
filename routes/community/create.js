@@ -30,11 +30,11 @@ router.post(community.createPost, async (req, res) => {
     }
 
     try {
-        const postId = await createPost(context, userId);
+        const newPost = await createPost(context, userId);
         res.status(201).json({
             status: true,
             message: '貼文新增成功',
-            postId: postId,
+            post: newPost,
         });
     } catch (err) {
         console.error('新增貼文錯誤:', err);
@@ -83,6 +83,7 @@ router.post(community.uploadPhoto, async (req, res) => {
                     mimetype: photo.mimetype,
                     size: photo.size,
                 },
+                post: result,
             });
         } catch (err) {
             console.error('檔案上傳到數據庫過程中出錯:', err);

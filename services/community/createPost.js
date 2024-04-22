@@ -30,7 +30,8 @@ export const createPost = async (context, userId) => {
     ON 
         posts.post_id = photos.post_id
     WHERE 
-        posts.post_id = ?`;
+        posts.post_id = ?
+    `;
 
     const [postResults] = await db.query(getNewPostQuery, [newPostId]);
 

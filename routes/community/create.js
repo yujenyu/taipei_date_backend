@@ -135,7 +135,7 @@ router.post(community.createEvent, async (req, res) => {
     }
 
     try {
-        const eventId = await createEvent(
+        const newEvent = await createEvent(
             title,
             description,
             status,
@@ -149,7 +149,7 @@ router.post(community.createEvent, async (req, res) => {
         res.status(201).json({
             status: true,
             message: '活動新增成功',
-            eventId: eventId,
+            event: newEvent,
         });
     } catch (err) {
         console.error('新增貼文錯誤:', err);
@@ -202,6 +202,7 @@ router.post(community.uploadEventPhoto, async (req, res) => {
                     mimetype: photo.mimetype,
                     size: photo.size,
                 },
+                event: result,
             });
         } catch (err) {
             console.error('檔案上傳到數據庫過程中出錯:', err);

@@ -29,6 +29,7 @@ const community = {
     unfollow: '/unfollow',
     checkFollowStatus: '/check-follow-status',
     getPostsByKeyword: '/get-posts-by-keyword',
+    searchUsers: '/search-users',
 };
 
 export { community };

@@ -422,7 +422,8 @@ app.use(
     communityRouter.postRouter,
     communityRouter.profileRouter,
     communityRouter.createRouter,
-    communityRouter.exploreRouter
+    communityRouter.exploreRouter,
+    communityRouter.searchRouter
 );
 
 // For Trip plans page

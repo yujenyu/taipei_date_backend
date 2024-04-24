@@ -29,3 +29,4 @@ export * from './follow.js';
 export * from './unfollow.js';
 export * from './checkFollowStatus.js';
 export * from './getPostsByKeyword.js';
+export * from './searchUsers.js';

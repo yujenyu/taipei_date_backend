@@ -11,6 +11,7 @@ export const getPosts = async (page = 1, limit = 12) => {
             posts.user_id AS post_userId,
             users.email,
             users.username,
+            users.avatar,
             photos.photo_name,
             photos.img
         FROM 

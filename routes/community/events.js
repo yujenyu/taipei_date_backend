@@ -6,6 +6,7 @@ import {
     notAttendEvent,
     isAttendedEvent,
     checkEventStatus,
+    deleteEvent,
 } from '../../services/index.js';
 
 const router = express.Router();
@@ -96,6 +97,31 @@ router.get(community.checkEventStatus, async (req, res) => {
     const eventIdArray = eventIds.split(',').map((id) => parseInt(id.trim()));
     const results = await checkEventStatus(userId, eventIdArray);
     res.json(results);
+});
+
+router.delete(community.deleteEvent, async (req, res) => {
+    const { eventId } = req.body;
+    if (!eventId) {
+        return res.status(400).json({
+            status: false,
+            message: '需要提供 eventId',
+        });
+    }
+    try {
+        const results = await deleteEvent(eventId);
+        return res.status(201).json({
+            status: true,
+            message: '刪除貼文成功',
+            data: results,
+        });
+    } catch (err) {
+        console.error('刪除貼文錯誤:', err);
+        res.status(500).json({
+            status: false,
+            message: '刪除貼文失敗',
+            error: err.message,
+        });
+    }
 });
 
 export default router;

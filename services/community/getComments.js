@@ -5,11 +5,13 @@ export const getComments = async (postIds) => {
 
     const qeury = `
     SELECT 
+        comment.comm_comment_id,
         comment.context, 
         comment.post_id, 
         comment.user_id,
         users.email,
-        users.username
+        users.username,
+        users.avatar
     FROM 
         comm_comment AS comment
     LEFT JOIN 

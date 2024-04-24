@@ -9,9 +9,28 @@ import {
     likePost,
     unlikePost,
     checkPostStatus,
+    deletePost,
+    deleteComment,
+    getPostsByKeyword,
 } from '../../services/index.js';
 
 const router = express.Router();
+
+router.get(community.getPostsByKeyword, async (req, res) => {
+    const { keyword } = req.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 12; // 默認每頁12個貼文
+
+    if (!keyword) {
+        return res.status(400).json({
+            status: false,
+            message: '需要提供 keyword',
+        });
+    }
+
+    const results = await getPostsByKeyword(keyword, page, limit);
+    res.json(results);
+});
 
 router.get(community.getPosts, async (req, res) => {
     const page = parseInt(req.query.page) || 1;
@@ -157,6 +176,56 @@ router.get(community.checkPostStatus, async (req, res) => {
     const postIdArray = postIds.split(',').map((id) => parseInt(id.trim()));
     const results = await checkPostStatus(userId, postIdArray);
     res.json(results);
+});
+
+router.delete(community.deletePost, async (req, res) => {
+    const { postId } = req.body;
+    if (!postId) {
+        return res.status(400).json({
+            status: false,
+            message: '需要提供postId',
+        });
+    }
+    try {
+        const results = await deletePost(postId);
+        return res.status(201).json({
+            status: true,
+            message: '刪除貼文成功',
+            data: results,
+        });
+    } catch (err) {
+        console.error('刪除貼文錯誤:', err);
+        res.status(500).json({
+            status: false,
+            message: '刪除貼文失敗',
+            error: err.message,
+        });
+    }
+});
+
+router.delete(community.deleteComment, async (req, res) => {
+    const { commentId } = req.body;
+    if (!commentId) {
+        return res.status(400).json({
+            status: false,
+            message: '需要提供 commentId',
+        });
+    }
+    try {
+        const results = await deleteComment(commentId);
+        return res.status(201).json({
+            status: true,
+            message: '刪除貼文成功',
+            data: results,
+        });
+    } catch (err) {
+        console.error('刪除貼文錯誤:', err);
+        res.status(500).json({
+            status: false,
+            message: '刪除貼文失敗',
+            error: err.message,
+        });
+    }
 });
 
 export default router;

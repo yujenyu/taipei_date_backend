@@ -22,6 +22,13 @@ const community = {
     checkPostStatus: '/check-post-status',
     getRandomPosts: '/get-random-posts',
     checkEventStatus: '/check-event-status',
+    deletePost: '/delete-post',
+    deleteEvent: '/delete-event',
+    deleteComment: '/delete-comment',
+    follow: '/follow',
+    unfollow: '/unfollow',
+    checkFollowStatus: '/check-follow-status',
+    getPostsByKeyword: '/get-posts-by-keyword',
 };
 
 export { community };

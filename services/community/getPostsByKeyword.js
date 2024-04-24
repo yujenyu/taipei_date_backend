@@ -1,6 +1,6 @@
 import db from '../../utils/mysql2-connect.js';
 
-export const getRandomPosts = async (page = 1, limit = 12) => {
+export const getPostsByKeyword = async (keyword, page = 1, limit = 12) => {
     const offset = (page - 1) * limit; // 計算起始位置
     const query = `
         SELECT 
@@ -24,11 +24,13 @@ export const getRandomPosts = async (page = 1, limit = 12) => {
             comm_photo AS photos 
         ON 
             posts.post_id = photos.post_id
+        WHERE 
+            context LIKE ?
         ORDER BY 
-            RAND() 
+            posts.post_id DESC
         LIMIT ? OFFSET ?`;
 
-    const [results] = await db.query(query, [limit, offset]); // 傳遞limit和offset值
+    const [results] = await db.query(query, [`%${keyword}%`, limit, offset]); // 傳遞limit和offset值
 
     // 將 BLOB 數據轉換為 Base64 字符串
     const posts = results.map((post) => {

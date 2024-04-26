@@ -7,6 +7,10 @@ import {
     uploadEventPhoto,
     createEvent,
     addComment,
+    editPost,
+    editPostPhoto,
+    editEvent,
+    editEventPhoto,
 } from '../../services/index.js';
 
 const router = express.Router();
@@ -163,6 +167,7 @@ router.post(community.createEvent, async (req, res) => {
 
 router.post(community.uploadEventPhoto, async (req, res) => {
     try {
+        console.log(req.files);
         if (!req.files || !req.body.eventId) {
             return res.status(400).send({
                 status: false,
@@ -247,6 +252,209 @@ router.post(community.addComment, async (req, res) => {
         res.status(500).json({
             status: false,
             message: '回覆新增失敗',
+            error: err.message,
+        });
+    }
+});
+
+router.put(community.editPost, async (req, res) => {
+    const { context, postId } = req.body;
+
+    // 檢查 context 和 userId 是否存在
+    if (!context || !postId) {
+        return res.status(400).json({
+            status: false,
+            message: '必須提供貼文內容和用戶ID',
+        });
+    }
+
+    try {
+        const result = await editPost(context, postId);
+
+        res.status(200).json({
+            status: true,
+            message: '貼文更新成功',
+            post: result,
+        });
+    } catch (err) {
+        console.error('貼文更新錯誤:', err);
+        res.status(500).json({
+            status: false,
+            message: '貼文更新失敗',
+            error: err.message,
+        });
+    }
+});
+
+router.put(community.editPostPhoto, async (req, res) => {
+    try {
+        // console.log('Files:', req.files);
+        // console.log('Body:', req.body);
+        if (!req.files || !req.body.postId) {
+            return res.status(400).send({
+                status: false,
+                message: '必須提供照片和貼文ID',
+            });
+        }
+
+        // 使用輸入框的名稱來獲取上傳檔案 (例如 "photo")
+        let photo = req.files.photo;
+        let postId = req.body.postId; // 從請求中獲取 postId
+
+        // 檢查 photo 是否存在
+        if (!photo) {
+            return res.status(400).send({
+                status: false,
+                message: '未上傳照片',
+            });
+        }
+        try {
+            // 讀取文件內容
+            const photoName = photo.name;
+            const imageData = photo.data;
+
+            // 模擬將文件信息和內容儲存到數據庫中的函數（需自行實現該函數）
+            const result = await editPostPhoto(photoName, imageData, postId);
+
+            res.json({
+                status: true,
+                message: '更新檔案已上傳並儲存到數據庫',
+                data: {
+                    name: photo.name,
+                    mimetype: photo.mimetype,
+                    size: photo.size,
+                },
+                post: result,
+            });
+        } catch (err) {
+            // console.log('result', result);
+            console.error('更新檔案上傳到數據庫過程中出錯:', err);
+            res.status(500).json({
+                status: false,
+                message: 'Server error',
+                error: err.message,
+            });
+        }
+    } catch (err) {
+        console.error('處理請求過程中出錯:', err);
+        res.status(500).json({
+            status: false,
+            message: 'Server error',
+            error: err.message,
+        });
+    }
+});
+
+router.put(community.editEvent, async (req, res) => {
+    const {
+        title,
+        description,
+        location,
+        startDate,
+        startTime,
+        endDate,
+        endTime,
+        eventId,
+    } = req.body;
+
+    // console.log('Received body:', req.body);
+
+    // 檢查活動細節是否存在
+    if (
+        !title ||
+        !description ||
+        !location ||
+        !startDate ||
+        !startTime ||
+        !endDate ||
+        !endTime ||
+        !eventId
+    ) {
+        return res.status(400).json({
+            status: false,
+            message: '必須提供活動內容',
+        });
+    }
+
+    try {
+        const result = await editEvent(
+            title,
+            description,
+            location,
+            startDate,
+            startTime,
+            endDate,
+            endTime,
+            eventId
+        );
+
+        res.status(200).json({
+            status: true,
+            message: '活動更新成功',
+            event: result,
+        });
+    } catch (err) {
+        console.error('活動更新錯誤:', err);
+        res.status(500).json({
+            status: false,
+            message: '活動更新失敗',
+            error: err.message,
+        });
+    }
+});
+
+router.put(community.editEventPhoto, async (req, res) => {
+    try {
+        if (!req.files || !req.body.eventId) {
+            return res.status(400).send({
+                status: false,
+                message: '必須提供照片和活動ID',
+            });
+        }
+
+        // 使用輸入框的名稱來獲取上傳檔案 (例如 "photo")
+        let photo = req.files.photo;
+        let eventId = req.body.eventId; // 從請求中獲取 postId
+
+        // 檢查 photo 是否存在
+        if (!photo) {
+            return res.status(400).send({
+                status: false,
+                message: '未上傳照片',
+            });
+        }
+        try {
+            // 讀取文件內容
+            const photoName = photo.name;
+            const imageData = photo.data;
+
+            // 模擬將文件信息和內容儲存到數據庫中的函數（需自行實現該函數）
+            const result = await editEventPhoto(photoName, imageData, eventId);
+
+            res.json({
+                status: true,
+                message: '更新檔案已上傳並儲存到數據庫',
+                data: {
+                    name: photo.name,
+                    mimetype: photo.mimetype,
+                    size: photo.size,
+                },
+                event: result,
+            });
+        } catch (err) {
+            // console.log('result', result);
+            console.error('更新檔案上傳到數據庫過程中出錯:', err);
+            res.status(500).json({
+                status: false,
+                message: 'Server error',
+                error: err.message,
+            });
+        }
+    } catch (err) {
+        // console.error('處理請求過程中出錯:', err);
+        res.status(500).json({
+            status: false,
+            message: 'Server error',
             error: err.message,
         });
     }

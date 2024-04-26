@@ -26,7 +26,7 @@ export const getEvents = async (page = 1, limit = 12) => {
     // const endDateFormat = 'MM[月]DD[日] HH:mm';
 
     const startDateFormat = 'YYYY[年] MM[月]DD[日]';
-    const endDateFormat = 'MM[月]DD[日]';
+    const endDateFormat = 'YYYY[年] MM[月]DD[日]';
 
     // 將 BLOB 數據轉換為 Base64 字符串
     const formattedResults = results.map((event) => {

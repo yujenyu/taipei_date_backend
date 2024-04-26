@@ -21,15 +21,43 @@ router.get(community.getPosts, async (req, res) => {
     res.json(results);
 });
 
-router.get(community.getUserPosts, authenticate, async (req, res) => {
+// router.get(community.getUserPosts, authenticate, async (req, res) => {
+//     // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+//     const output = {
+//         success: false,
+//         action: '', // add, remove
+//         error: '',
+//         code: 0,
+//         data: [],
+//     };
+
+//     const { userId } = req.params;
+//     const page = parseInt(req.query.page) || 1;
+//     const limit = parseInt(req.query.limit) || 12; // 默認每頁12個貼文
+//     const results = await getUserPosts(userId, page, limit);
+
+//     if (!results) {
+//         output.success = false;
+//         output.code = 440;
+//         output.error = '沒有該筆資料';
+//         return res.json(output);
+//     }
+
+//     // add success status to results
+//     const newResults = results.map((obj) => ({ ...obj, success: true }));
+
+//     res.json(newResults);
+// });
+
+router.get(community.getUserPosts, async (req, res) => {
     // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
-    const output = {
-        success: false,
-        action: '', // add, remove
-        error: '',
-        code: 0,
-        data: [],
-    };
+    // const output = {
+    //     success: false,
+    //     action: '', // add, remove
+    //     error: '',
+    //     code: 0,
+    //     data: [],
+    // };
 
     const { userId } = req.params;
     const page = parseInt(req.query.page) || 1;

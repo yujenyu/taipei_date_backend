@@ -30,6 +30,10 @@ const community = {
     checkFollowStatus: '/check-follow-status',
     getPostsByKeyword: '/get-posts-by-keyword',
     searchUsers: '/search-users',
+    editPost: '/edit-post',
+    editPostPhoto: '/edit-post-photo',
+    editEvent: '/edit-event',
+    editEventPhoto: '/edit-event-photo',
 };
 
 export { community };

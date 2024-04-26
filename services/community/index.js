@@ -30,3 +30,7 @@ export * from './unfollow.js';
 export * from './checkFollowStatus.js';
 export * from './getPostsByKeyword.js';
 export * from './searchUsers.js';
+export * from './editPost.js';
+export * from './editPostPhoto.js';
+export * from './editEvent.js';
+export * from './editEventPhoto.js';

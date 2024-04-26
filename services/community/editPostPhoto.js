@@ -1,8 +1,19 @@
 import db from '../../utils/mysql2-connect.js';
 
-export const getUserPosts = async (userId, page = 1, limit = 12) => {
-    const offset = (page - 1) * limit; // 計算起始位置
+export const editPostPhoto = async (photoName, imageData, postId) => {
     const query = `
+        UPDATE
+            comm_photo
+        SET
+            photo_name = ?,
+            img = ?
+        WHERE
+            post_id = ?
+        `;
+
+    const [results] = await db.query(query, [photoName, imageData, postId]);
+
+    const getNewPostQuery = `
         SELECT 
             posts.post_id, 
             posts.context AS post_context,
@@ -25,23 +36,20 @@ export const getUserPosts = async (userId, page = 1, limit = 12) => {
         ON 
             posts.post_id = photos.post_id
         WHERE 
-            posts.user_id = ?
-        ORDER BY 
-            posts.post_id DESC
-        LIMIT ? OFFSET ?`;
+            posts.post_id = ?`;
 
-    const [results] = await db.query(query, [userId, limit, offset]); // 傳遞limit, offset, 和userId值
+    const [postResults] = await db.query(getNewPostQuery, [postId]);
 
-    // 將 BLOB 數據轉換為 Base64 字符串
-    const posts = results.map((post) => {
+    if (postResults.length > 0) {
+        const post = postResults[0];
+
         if (post.img) {
             const imageBase64 = Buffer.from(post.img).toString('base64');
-            return {
-                ...post,
-                img: `data:image/jpeg;base64,${imageBase64}`,
-            };
+            post.img = `data:image/jpeg;base64,${imageBase64}`;
         }
+
         return post;
-    });
-    return posts;
+    }
+
+    return results;
 };

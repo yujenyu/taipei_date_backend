@@ -21,34 +21,6 @@ router.get(community.getPosts, async (req, res) => {
     res.json(results);
 });
 
-// router.get(community.getUserPosts, authenticate, async (req, res) => {
-//     // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
-//     const output = {
-//         success: false,
-//         action: '', // add, remove
-//         error: '',
-//         code: 0,
-//         data: [],
-//     };
-
-//     const { userId } = req.params;
-//     const page = parseInt(req.query.page) || 1;
-//     const limit = parseInt(req.query.limit) || 12; // 默認每頁12個貼文
-//     const results = await getUserPosts(userId, page, limit);
-
-//     if (!results) {
-//         output.success = false;
-//         output.code = 440;
-//         output.error = '沒有該筆資料';
-//         return res.json(output);
-//     }
-
-//     // add success status to results
-//     const newResults = results.map((obj) => ({ ...obj, success: true }));
-
-//     res.json(newResults);
-// });
-
 router.get(community.getUserPosts, async (req, res) => {
     // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
     // const output = {
@@ -95,7 +67,17 @@ router.get(community.getUserInfo, async (req, res) => {
     res.json(results);
 });
 
-router.post(community.follow, async (req, res) => {
+router.post(community.follow, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
+    // const output = {
+    //     success: false,
+    //     action: '', // add, remove
+    //     error: '',
+    //     code: 0,
+    //     data: [],
+    // };
+
     const { userId, FollowingId } = req.body;
 
     if (!userId || !FollowingId) {
@@ -107,6 +89,14 @@ router.post(community.follow, async (req, res) => {
 
     try {
         const results = await follow(userId, FollowingId);
+
+        // if (!results) {
+        //     output.success = false;
+        //     output.code = 440;
+        //     output.error = '沒有該筆資料';
+        //     return res.json(output);
+        // }
+
         return res.status(201).json({
             status: true,
             message: '追蹤成功',
@@ -122,7 +112,7 @@ router.post(community.follow, async (req, res) => {
     }
 });
 
-router.delete(community.unfollow, async (req, res) => {
+router.delete(community.unfollow, authenticate, async (req, res) => {
     const { userId, FollowingId } = req.body;
 
     if (!userId || !FollowingId) {
@@ -134,6 +124,7 @@ router.delete(community.unfollow, async (req, res) => {
 
     try {
         const results = await unfollow(userId, FollowingId);
+
         return res.status(201).json({
             status: true,
             message: '取消追蹤成功',
@@ -149,7 +140,7 @@ router.delete(community.unfollow, async (req, res) => {
     }
 });
 
-router.get(community.checkFollowStatus, async (req, res) => {
+router.get(community.checkFollowStatus, authenticate, async (req, res) => {
     const { userId, followingId } = req.query;
 
     if (!userId || !followingId) {

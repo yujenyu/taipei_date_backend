@@ -12,6 +12,7 @@ import {
     editEvent,
     editEventPhoto,
 } from '../../services/index.js';
+import authenticate from '../../middlewares/authenticate.js';
 
 const router = express.Router();
 
@@ -22,7 +23,9 @@ router.use(
     })
 );
 
-router.post(community.createPost, async (req, res) => {
+router.post(community.createPost, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     const { context, userId } = req.body;
 
     // 檢查 context 和 userId 是否存在
@@ -50,7 +53,9 @@ router.post(community.createPost, async (req, res) => {
     }
 });
 
-router.post(community.uploadPhoto, async (req, res) => {
+router.post(community.uploadPhoto, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     try {
         if (!req.files || !req.body.postId) {
             return res.status(400).send({
@@ -107,7 +112,9 @@ router.post(community.uploadPhoto, async (req, res) => {
     }
 });
 
-router.post(community.createEvent, async (req, res) => {
+router.post(community.createEvent, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     const {
         title,
         description,
@@ -165,9 +172,11 @@ router.post(community.createEvent, async (req, res) => {
     }
 });
 
-router.post(community.uploadEventPhoto, async (req, res) => {
+router.post(community.uploadEventPhoto, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     try {
-        console.log(req.files);
+        // console.log(req.files);
         if (!req.files || !req.body.eventId) {
             return res.status(400).send({
                 status: false,
@@ -227,7 +236,9 @@ router.post(community.uploadEventPhoto, async (req, res) => {
     }
 });
 
-router.post(community.addComment, async (req, res) => {
+router.post(community.addComment, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     const { context, status, postId, userId } = req.body;
 
     // 檢查 context, status, postId, 和 userId 是否存在
@@ -257,7 +268,9 @@ router.post(community.addComment, async (req, res) => {
     }
 });
 
-router.put(community.editPost, async (req, res) => {
+router.put(community.editPost, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     const { context, postId } = req.body;
 
     // 檢查 context 和 userId 是否存在
@@ -286,7 +299,9 @@ router.put(community.editPost, async (req, res) => {
     }
 });
 
-router.put(community.editPostPhoto, async (req, res) => {
+router.put(community.editPostPhoto, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     try {
         // console.log('Files:', req.files);
         // console.log('Body:', req.body);
@@ -345,7 +360,9 @@ router.put(community.editPostPhoto, async (req, res) => {
     }
 });
 
-router.put(community.editEvent, async (req, res) => {
+router.put(community.editEvent, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     const {
         title,
         description,
@@ -403,7 +420,9 @@ router.put(community.editEvent, async (req, res) => {
     }
 });
 
-router.put(community.editEventPhoto, async (req, res) => {
+router.put(community.editEventPhoto, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     try {
         if (!req.files || !req.body.eventId) {
             return res.status(400).send({

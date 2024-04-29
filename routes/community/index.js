@@ -4,6 +4,7 @@ import profileRouter from './profile.js';
 import createRouter from './create.js';
 import exploreRouter from './explore.js';
 import searchRouter from './search.js';
+import postPageRouter from './post.js';
 
 const communityRouter = {
     eventsRouter,
@@ -12,6 +13,7 @@ const communityRouter = {
     createRouter,
     exploreRouter,
     searchRouter,
+    postPageRouter,
 };
 
 export default communityRouter;

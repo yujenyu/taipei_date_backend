@@ -13,6 +13,7 @@ import {
     deleteComment,
     getPostsByKeyword,
 } from '../../services/index.js';
+import authenticate from '../../middlewares/authenticate.js';
 
 const router = express.Router();
 
@@ -57,7 +58,9 @@ router.get(community.getSuggestUsers, async (req, res) => {
     res.json(results);
 });
 
-router.post(community.savePost, async (req, res) => {
+router.post(community.savePost, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     const { postId, userId } = req.body;
 
     if (!postId || !userId) {
@@ -84,7 +87,9 @@ router.post(community.savePost, async (req, res) => {
     }
 });
 
-router.delete(community.unsavePost, async (req, res) => {
+router.delete(community.unsavePost, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     const { postId, userId } = req.body;
 
     if (!postId || !userId) {
@@ -111,7 +116,9 @@ router.delete(community.unsavePost, async (req, res) => {
     }
 });
 
-router.post(community.likePost, async (req, res) => {
+router.post(community.likePost, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     const { postId, userId } = req.body;
 
     if (!postId || !userId) {
@@ -138,7 +145,9 @@ router.post(community.likePost, async (req, res) => {
     }
 });
 
-router.delete(community.unlikePost, async (req, res) => {
+router.delete(community.unlikePost, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     const { postId, userId } = req.body;
 
     if (!postId || !userId) {
@@ -178,7 +187,9 @@ router.get(community.checkPostStatus, async (req, res) => {
     res.json(results);
 });
 
-router.delete(community.deletePost, async (req, res) => {
+router.delete(community.deletePost, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     const { postId } = req.body;
     if (!postId) {
         return res.status(400).json({
@@ -203,8 +214,11 @@ router.delete(community.deletePost, async (req, res) => {
     }
 });
 
-router.delete(community.deleteComment, async (req, res) => {
+router.delete(community.deleteComment, authenticate, async (req, res) => {
+    // authenticate : 授權後，!req.my_jwt?.id判斷有無授權成功
+
     const { commentId } = req.body;
+
     if (!commentId) {
         return res.status(400).json({
             status: false,

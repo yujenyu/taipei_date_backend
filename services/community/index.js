@@ -34,3 +34,5 @@ export * from './editPost.js';
 export * from './editPostPhoto.js';
 export * from './editEvent.js';
 export * from './editEventPhoto.js';
+export * from './getPostPage.js';
+export * from './getEventPage.js';

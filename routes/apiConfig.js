@@ -1,6 +1,8 @@
 const community = {
     getEvents: '/events',
+    getEventPage: '/get-event-page/:eventId',
     getPosts: '/posts',
+    getPostPage: '/get-post-page/:postId',
     getUserPosts: '/posts/:userId',
     uploadPhoto: '/upload-photo',
     getSuggestUsers: '/getSuggestUsers',

@@ -36,6 +36,8 @@ const community = {
     editPostPhoto: '/edit-post-photo',
     editEvent: '/edit-event',
     editEventPhoto: '/edit-event-photo',
+    getFollowers: '/get-followers/:followingId',
+    getFollowings: '/get-followings/:followerId',
 };
 
 export { community };

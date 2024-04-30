@@ -9,6 +9,8 @@ import {
     follow,
     unfollow,
     checkFollowStatus,
+    getFollowers,
+    getFollowings,
 } from '../../services/index.js';
 import authenticate from '../../middlewares/authenticate.js';
 
@@ -156,6 +158,50 @@ router.get(community.checkFollowStatus, authenticate, async (req, res) => {
         console.error('Error checking follow status:', err);
         res.status(500).json({
             message: 'Error checking follow status',
+            error: err.message,
+        });
+    }
+});
+
+router.get(community.getFollowers, async (req, res) => {
+    const { followingId } = req.params;
+
+    if (!followingId) {
+        return res.status(400).json({
+            status: false,
+            message: '需要提供 followingId',
+        });
+    }
+
+    try {
+        const result = await getFollowers(followingId);
+        res.json(result);
+    } catch (err) {
+        console.error('Error checking followers:', err);
+        res.status(500).json({
+            message: 'Error checking followers',
+            error: err.message,
+        });
+    }
+});
+
+router.get(community.getFollowings, async (req, res) => {
+    const { followerId } = req.params;
+
+    if (!followerId) {
+        return res.status(400).json({
+            status: false,
+            message: '需要提供 followerId',
+        });
+    }
+
+    try {
+        const result = await getFollowings(followerId);
+        res.json(result);
+    } catch (err) {
+        console.error('Error checking followings:', err);
+        res.status(500).json({
+            message: 'Error checking followings',
             error: err.message,
         });
     }

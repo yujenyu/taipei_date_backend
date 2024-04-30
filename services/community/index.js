@@ -36,3 +36,5 @@ export * from './editEvent.js';
 export * from './editEventPhoto.js';
 export * from './getPostPage.js';
 export * from './getEventPage.js';
+export * from './getFollowers.js';
+export * from './getFollowings.js';

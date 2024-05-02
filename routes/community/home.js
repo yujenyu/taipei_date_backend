@@ -12,6 +12,7 @@ import {
     deletePost,
     deleteComment,
     getPostsByKeyword,
+    getNoti,
 } from '../../services/index.js';
 import authenticate from '../../middlewares/authenticate.js';
 
@@ -237,6 +238,32 @@ router.delete(community.deleteComment, authenticate, async (req, res) => {
         res.status(500).json({
             status: false,
             message: '刪除貼文失敗',
+            error: err.message,
+        });
+    }
+});
+
+router.get(community.getNoti, async (req, res) => {
+    const { userId } = req.params;
+
+    if (!userId) {
+        return res.status(400).json({
+            status: false,
+            message: '需要提供 userId',
+        });
+    }
+    try {
+        const results = await getNoti(userId);
+        return res.status(201).json({
+            status: true,
+            message: '獲取通知成功',
+            noti: results,
+        });
+    } catch (err) {
+        console.error('獲取通知錯誤:', err);
+        res.status(500).json({
+            status: false,
+            message: '獲取通知失敗',
             error: err.message,
         });
     }

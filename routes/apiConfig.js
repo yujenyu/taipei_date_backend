@@ -38,6 +38,7 @@ const community = {
     editEventPhoto: '/edit-event-photo',
     getFollowers: '/get-followers/:followingId',
     getFollowings: '/get-followings/:followerId',
+    getNoti: '/get-noti/:userId',
 };
 
 export { community };

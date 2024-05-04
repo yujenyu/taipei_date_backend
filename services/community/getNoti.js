@@ -3,12 +3,12 @@ import db from '../../utils/mysql2-connect.js';
 export const getNoti = async (userId) => {
     const query = `
         SELECT 
-            cn.comm_noti_id,
+            cn.comm_noti_id As notiId,
             cn.sender_id AS senderId,
             cn.receiver_id,
             cn.type,
             cn.message,
-            cn.is_read,
+            cn.is_read AS isRead,
             cn.post_id AS postId,
             cn.created_at,
             cn.updated_at,

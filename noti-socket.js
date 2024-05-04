@@ -33,7 +33,7 @@ const getUser = (username) => {
 io.on('connection', (socket) => {
     console.log('someone has connected!');
 
-    socket.on('newUser', (username) => {
+    socket.on('newUser', async (username) => {
         addNewUser(username, socket.id);
         console.log(`Added new user: ${username}`);
     });
@@ -65,9 +65,9 @@ io.on('connection', (socket) => {
                 postId,
             ]);
 
-            const commNotiId = results.insertId;
+            const notiId = results.insertId;
 
-            // console.log(commNotiId);
+            // console.log(notiId);
 
             console.log('Notification saved to database');
 
@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
             if (receiver) {
                 // 向接收者的socket發送通知
                 io.to(receiver.socketId).emit('getNotification', {
-                    commNotiId,
+                    notiId,
                     senderName,
                     senderId,
                     receiverId,
@@ -91,6 +91,7 @@ io.on('connection', (socket) => {
                     postId,
                     message,
                     avatar,
+                    isRead: false,
                 });
                 console.log(
                     `Notification sent from ${senderName} to ${receiverName}: ${type}`
@@ -150,6 +151,27 @@ io.on('connection', (socket) => {
             socket.emit('notificationError', {
                 status: false,
                 message: '移除通知失敗',
+                error: error.message,
+            });
+        }
+    });
+
+    socket.on('markNotificationRead', async (notiId) => {
+        try {
+            const updateQuery = `
+                UPDATE comm_noti
+                SET is_read = 1
+                WHERE comm_noti_id = ?
+            `;
+            await db.query(updateQuery, [notiId]);
+            console.log(`Notification ${notiId} marked as read.`);
+
+            socket.emit('notificationRead', { status: true, notiId });
+        } catch (error) {
+            console.error('Error marking notification as read:', error);
+            socket.emit('notificationError', {
+                status: false,
+                message: 'Failed to mark notification as read',
                 error: error.message,
             });
         }

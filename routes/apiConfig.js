@@ -39,6 +39,7 @@ const community = {
     getFollowers: '/get-followers/:followingId',
     getFollowings: '/get-followings/:followerId',
     getNoti: '/get-noti/:userId',
+    markNotiAsRead: '/mark-noti-as-read/:notiId',
 };
 
 export { community };

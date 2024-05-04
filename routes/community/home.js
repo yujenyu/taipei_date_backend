@@ -13,6 +13,7 @@ import {
     deleteComment,
     getPostsByKeyword,
     getNoti,
+    markNotiAsRead,
 } from '../../services/index.js';
 import authenticate from '../../middlewares/authenticate.js';
 
@@ -264,6 +265,33 @@ router.get(community.getNoti, async (req, res) => {
         res.status(500).json({
             status: false,
             message: '獲取通知失敗',
+            error: err.message,
+        });
+    }
+});
+
+router.post(community.markNotiAsRead, async (req, res) => {
+    const { notiId } = req.params;
+    const { userId } = req.body; // 從請求體中獲取 userId
+
+    if (!userId || !notiId) {
+        return res.status(400).json({
+            status: false,
+            message: '需要提供 userId 和 notiId',
+        });
+    }
+    try {
+        const results = await markNotiAsRead(notiId, userId);
+        return res.status(201).json({
+            status: true,
+            message: '已讀通知成功',
+            noti: results,
+        });
+    } catch (err) {
+        console.error('已讀通知錯誤:', err);
+        res.status(500).json({
+            status: false,
+            message: '已讀通知失敗',
             error: err.message,
         });
     }

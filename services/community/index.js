@@ -39,3 +39,4 @@ export * from './getEventPage.js';
 export * from './getFollowers.js';
 export * from './getFollowings.js';
 export * from './getNoti.js';
+export * from './markNotiAsRead.js';

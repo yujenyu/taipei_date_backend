@@ -27,7 +27,7 @@ export const uploadEventPhoto = async (photoName, eventId, imageData) => {
     const [eventResults] = await db.query(getNewEventQuery, [eventId]);
 
     const startDateFormat = 'YYYY[年] MM[月]DD[日]';
-    const endDateFormat = 'MM[月]DD[日]';
+    const endDateFormat = 'YYYY[年] MM[月]DD[日]';
 
     if (eventResults.length > 0) {
         const event = eventResults[0];

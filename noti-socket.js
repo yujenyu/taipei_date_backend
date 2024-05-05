@@ -128,17 +128,6 @@ io.on('connection', (socket) => {
                 type,
             ]);
 
-            // const { commNotiId } = data;
-
-            // try {
-            //     const query = `
-            //         DELETE FROM
-            //             comm_noti
-            //         WHERE
-            //             comm_noti_id = ?
-            //     `;
-            //     const [results] = await db.query(query, [commNotiId]);
-
             console.log('Notification removed from database');
 
             socket.emit('notificationRemoved', {
